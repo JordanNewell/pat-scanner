@@ -1,0 +1,33 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "pat-scanner",
+  "description": "Single-plugin marketplace for PAT Scanner — Claude Code UserPromptSubmit hook that blocks credential leaks at chat-time.",
+  "owner": {
+    "name": "Jordan Newell",
+    "url": "https://jordannewell.com"
+  },
+  "plugins": [
+    {
+      "name": "pat-scanner",
+      "description": "Block credential leaks at chat-time. UserPromptSubmit hook that catches 13 PAT classes (Figma, Anthropic, OpenAI, GitHub, Slack, Stripe, PyPI, Z.ai, JWT, Natural, AWS) before they enter the transcript. Bypass via BYPASS_SECRET_SCAN keyword.",
+      "author": {
+        "name": "Jordan Newell",
+        "url": "https://jordannewell.com"
+      },
+      "category": "security",
+      "tags": [
+        "security",
+        "secrets",
+        "credentials",
+        "leak-prevention",
+        "compliance",
+        "hooks"
+      ],
+      "source": {
+        "source": "url",
+        "url": "https://github.com/JordanNewell/pat-scanner.git"
+      },
+      "homepage": "https://github.com/JordanNewell/pat-scanner"
+    }
+  ]
+}
