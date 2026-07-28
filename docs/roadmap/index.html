@@ -658,22 +658,55 @@
           <li>Slack / Teams alerting</li>
           <li>Org-wide patterns</li>
           <li>SOC2-ready export</li>
+          <li>SSO (Google / Okta)</li>
         </ul>
       </div>
       <div class="tier">
         <div class="name">ENTERPRISE</div>
-        <div class="price">sales-led</div>
+        <div class="price">$24 / seat / mo · sales-led</div>
         <ul>
-          <li>SSO + SCIM</li>
+          <li>SAML + SCIM</li>
           <li>Self-hosted collector</li>
           <li>Custom pattern SLAs</li>
           <li>Air-gapped deployment</li>
+          <li>1-year retention default</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tier-row" style="margin-top: 1rem;">
+      <div class="tier" style="border-color: var(--amber);">
+        <div class="name" style="color: var(--amber);">AGENT SEAT (add-on)</div>
+        <div class="price">$4 / agent / mo</div>
+        <ul>
+          <li>Sub-seat for Claude Code agents + CI bots</li>
+          <li>No SSO entitlement</li>
+          <li>Covers fleet/automation coverage</li>
+          <li>First-mover — nobody else in market charges this</li>
+        </ul>
+      </div>
+      <div class="tier" style="opacity: 0.6;">
+        <div class="name">RETENTION UPSELL</div>
+        <div class="price">+ $2 / seat / mo</div>
+        <ul>
+          <li>Team default 90 days</li>
+          <li>Enterprise default 1 year</li>
+          <li>Longer retention a small upcharge</li>
+        </ul>
+      </div>
+      <div class="tier" style="opacity: 0.4;">
+        <div class="name">OVERAGE (ENT ONLY)</div>
+        <div class="price">> 10K blocks / mo</div>
+        <ul>
+          <li>Only at Enterprise tier</li>
+          <li>Team stays flat — no surprise bills</li>
+          <li>Don't charge on hosts or repos</li>
         </ul>
       </div>
     </div>
 
     <div class="note">
-      <strong>Pricing is a target, not a commitment.</strong> $19/seat/mo is the working number — may move as the build firms up. OSS plugin features will not be paywalled. If you want early access or want to shape the feature set, <a href="https://github.com/JordanNewell/pat-scanner/discussions">open a discussion</a>.
+      <strong>Pricing vetted 2026-07-27</strong> against live comps: GitGuardian ~$18/dev/mo, Snyk Team $25, GitHub Secret Protection standalone $30, Doppler Team $21. $19/seat sits at the floor of the GitGuardian / Snyk band — clearly under GitHub's standalone SKU (narrower scope = cheaper), ~10% under Doppler. Agent-seat line item is first-mover; no competitor in market charges for non-human seats yet. OSS plugin features will not be paywalled — Team tier is additive, not a feature gate. If you want early access or want to shape the feature set, <a href="https://github.com/JordanNewell/pat-scanner/discussions">open a discussion</a>.
     </div>
   </section>
 
@@ -763,10 +796,12 @@
     </p>
 
     <ul class="checklist">
+      <li class="todo"><strong>MULTI-IDE WEDGE — Cline / Cursor / Aider / Gemini CLI</strong> &mdash; refactor scan core into a CLI separate from the CC hook. Priority-1: Anthropic shipping a native CC hook is the existential risk, multi-IDE removes it. ~1 weekend.</li>
       <li class="idea"><strong>PreToolUse hook companion</strong> &mdash; scan tool inputs (Write/Edit/Bash) not just prompts. Catches the case where an agent tries to write a secret to disk.</li>
       <li class="idea"><strong>macOS/BSD grep portability testing</strong> &mdash; Linux GNU grep is the only tested target today. BSD grep has subtle ERE differences.</li>
       <li class="idea"><strong>Windows native PowerShell port</strong> &mdash; currently Git Bash only. Native PS port would remove the WSL/Git Bash dependency for Windows users.</li>
-      <li class="idea"><strong>Plugin marketplace for community patterns</strong> &mdash; separate from core, so unusual org-specific patterns don't bloat defaults.</li>
+      <li class="idea"><strong>Homebrew tap + scoop bucket + npm wrapper</strong> &mdash; distribution beyond CC plugin marketplace. Captures Aider/Cline/Cursor cohort via standalone CLI shim.</li>
+      <li class="idea"><strong>Bundle with OpenClaw defaults + Claude Code starter packs</strong> &mdash; default-inclusion is the cheapest install (zero user action). PRs to 3-5 popular starter-pack repos.</li>
       <li class="idea"><strong>Statusline integration</strong> &mdash; surface "blocked N times this session" in the CC statusline for at-a-glance awareness.</li>
       <li class="idea"><strong>Canary-token logging mode</strong> &mdash; instead of blocking, log only and let the canary approach surface later leaks. Companion to <a href="https://github.com/JordanNewell/sensitive-canary">sensitive-canary</a>.</li>
       <li class="idea"><strong>Claude Agent SDK support</strong> &mdash; currently Claude Code only. Agent SDK uses different hook surface; would need a separate integration.</li>
@@ -803,9 +838,43 @@
     </ul>
   </section>
 
+  <!-- ============ WINDOW / STRATEGIC CONTEXT ============ -->
+  <section class="strip" id="window">
+    <div class="section-num">// 07 — window</div>
+    <h2>Why this exists, and for how long.</h2>
+    <p class="lede">
+      PAT Scanner is a timing bet. Chat-time secret leak prevention is a
+      real, unsolved problem at the IDE layer &mdash; but the big vendors
+      are shipping <em>warnings</em>, and <em>blocking</em> is 12-18 months
+      behind. The wedge is open now. The window closes when Anthropic /
+      Cursor / GitHub ship native blocking at the platform level.
+    </p>
+
+    <div class="feature-block">
+      <h4>THE WEDGE — LOCAL, MIT, ZERO-DEPS, 30-SECOND INSTALL</h4>
+      <p>Funded startups (Knostic, Reco, Witness AI, Wald, Dope Security &mdash; ~$10-50M each) attack chat-time leaks from the <strong>browser/proxy</strong> layer at $20-40K/yr enterprise. Nobody owns the bare local hook that runs in your existing Claude Code install, costs nothing, ships in 30 seconds, and is the canonical answer to "how do I stop pasting my Anthropic key into Claude Code." That's PAT Scanner's slot.</p>
+    </div>
+    <div class="feature-block">
+      <h4>THE WAVE — AI-AGENT SECURITY TAM</h4>
+      <p>Agentic AI security market: <strong>$1.65B (2026) → $13.52B (2032), 42% CAGR</strong> (MarketsandMarkets). NIST AI RMF Measure 2.7 (data leakage) is claimable now; ISO/IEC 42001 Annex A.7 (data handling) aligns as the standard matures. Compliance tailwinds will pull native-blocking requirements into frameworks within 24 months.</p>
+    </div>
+    <div class="feature-block">
+      <h4>THE WINDOW &mdash; 12-18 MONTHS</h4>
+      <p>GitHub Copilot shipped a May 2025 sensitive-content warning (driven by Pillar Security research). Cursor has Privacy Mode but no prompt-time detection. Anthropic ships no native leak prevention. <strong>All three are 12-18 months from native blocking at the platform level.</strong> The play is to land the OSS wedge and the Team-tier revenue before that consolidation wave hits.</p>
+    </div>
+    <div class="feature-block">
+      <h4>EXIT / SUSTAINABILITY</h4>
+      <p>Two scenarios: (1) Acquisition target by 2027 &mdash; Lakera and Prompt Security already acquired in 2025 by Check Point and consolidation rollup; a defensible OSS install base + Team tier revenue is the asset buyers pay for. (2) Sustainable independent &mdash; the GitGuardian / HackerOne path: $20-50M ARR on the back of OSS adoption. Both require the same inputs: OSS downloads, GitHub stars, named enterprise pilots.</p>
+    </div>
+
+    <div class="note">
+      <strong>Honest uncertainty:</strong> AI-agent security is nascent and consolidating monthly. Vendor native-feature roadmaps are speculation based on May 2025 warning features and public 2026 GitHub roadmap hints. If Cursor or Anthropic ships blocking natively before v0.3, the strategic priority list reshuffles &mdash; multi-IDE wedge becomes the only defense.
+    </div>
+  </section>
+
   <!-- ============ CHANGELOG ============ -->
   <section class="strip" id="changelog">
-    <div class="section-num">// 07 — history</div>
+    <div class="section-num">// 08 — history</div>
     <h2>Releases so far.</h2>
     <p class="lede">
       Two patches shipped same day (2026-07-27). Full release notes on
