@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PAT Scanner roadmap — what shipped (v0.1.x), what's next (v0.2 Team tier), what's later (v0.3 patterns / v0.4 multi-line), and what's explicitly out of scope.">
+  <meta name="author" content="Jordan Newell">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:title" content="PAT Scanner — Roadmap">
+  <meta property="og:description" content="What shipped, what's next, what's later, what's not doing. OSS plugin stays MIT forever.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://jordannewell.github.io/pat-scanner/roadmap/">
+  <meta property="og:site_name" content="PAT Scanner">
+  <title>PAT Scanner — Roadmap</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="https://jordannewell.github.io/newell-typeface/assets/favicon-512.png">
+  <link rel="apple-touch-icon" href="https://jordannewell.github.io/newell-typeface/assets/apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+  <style>
+    :root {
+      --bg:           #000000;
+      --bg-elevated:  #0a0a0a;
+      --bg-panel:     #0d0d0d;
+      --green:        #00FF00;
+      --green-soft:   rgba(0, 255, 0, 0.06);
+      --green-line:   rgba(0, 255, 0, 0.25);
+      --text:         #e8e8e8;
+      --text-dim:     #a0a0a0;
+      --muted:        #5a5a5a;
+      --rule:         #1a1a1a;
+      --red:          #ff5555;
+      --amber:        #ffb86c;
+      --sans:         system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --mono:         ui-monospace, "SF Mono", Menlo, Consolas, "Courier New", monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: var(--green);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s ease;
+    }
+    a:hover { border-bottom-color: var(--green); }
+
+    code, pre { font-family: var(--mono); }
+
+    /* ---------- top bar ---------- */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      position: sticky;
+      top: 0;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--rule);
+      z-index: 100;
+    }
+    .topbar .brand { color: var(--text); font-weight: 600; }
+    .topbar .brand span { color: var(--green); }
+    .topbar nav { display: flex; gap: 2rem; }
+    .topbar nav a { color: var(--text-dim); border-bottom: none; }
+    .topbar nav a:hover { color: var(--green); }
+    .topbar nav a.active { color: var(--green); }
+    .topbar .status {
+      color: var(--green);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .topbar .status::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0.35; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .topbar .status::before { animation: none; }
+    }
+
+    /* ---------- hero ---------- */
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 6rem 2rem 3rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+      position: relative;
+    }
+
+    .hero .eyebrow {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+    }
+    .hero .eyebrow .accent { color: var(--green); }
+
+    .hero h1 {
+      font-family: var(--mono);
+      font-weight: 700;
+      color: var(--green);
+      font-size: clamp(2.5rem, 9vw, 7rem);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+      text-shadow: 0 0 60px rgba(0, 255, 0, 0.18);
+      text-transform: lowercase;
+    }
+    .hero h1 .sub {
+      display: block;
+      color: var(--text);
+      opacity: 0.5;
+      font-weight: 400;
+      font-size: 0.45em;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-top: 0.8rem;
+    }
+
+    .hero .tagline {
+      font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+      color: var(--text);
+      font-weight: 400;
+      max-width: 56ch;
+      line-height: 1.55;
+      margin-bottom: 2.5rem;
+    }
+    .hero .tagline strong {
+      color: var(--green);
+      font-weight: 500;
+    }
+
+    .hero .cta-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 3rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.95rem 1.75rem;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border: 1px solid var(--green);
+      color: var(--green);
+      background: transparent;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .btn:hover { background: var(--green); color: var(--bg); }
+    .btn--ghost { border-color: var(--rule); color: var(--text-dim); }
+    .btn--ghost:hover { background: transparent; color: var(--green); border-color: var(--green); }
+
+    /* ---------- section frame ---------- */
+    section.strip {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+      border-top: 1px solid var(--rule);
+      width: 100%;
+    }
+    .strip h2 {
+      font-family: var(--mono);
+      font-weight: 500;
+      color: var(--green);
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.8rem;
+    }
+    .strip .lede {
+      color: var(--text-dim);
+      font-size: 1.05rem;
+      max-width: 60ch;
+      line-height: 1.6;
+      margin-bottom: 2.5rem;
+    }
+    .strip .section-num {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+
+    /* ---------- phase header (NOW / NEXT / LATER) ---------- */
+    .phase-head {
+      display: flex;
+      align-items: baseline;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .phase-head .ver {
+      font-family: var(--mono);
+      font-weight: 700;
+      color: var(--green);
+      font-size: 1.6rem;
+      letter-spacing: 0.02em;
+    }
+    .phase-head .state {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.7rem;
+      border: 1px solid var(--green);
+      color: var(--green);
+      border-radius: 2px;
+    }
+    .phase-head .state.next   { border-color: var(--amber); color: var(--amber); }
+    .phase-head .state.later  { border-color: var(--muted); color: var(--muted); }
+    .phase-head .state.idea   { border-color: var(--rule);  color: var(--text-dim); border-style: dashed; }
+    .phase-head .state.no     { border-color: var(--red);   color: var(--red); }
+    .phase-head .when {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    /* ---------- checklist ---------- */
+    ul.checklist {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 0.8rem 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+    ul.checklist li {
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      padding-left: 1.8rem;
+      position: relative;
+    }
+    ul.checklist li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--green);
+      font-family: var(--mono);
+      font-weight: 700;
+    }
+    ul.checklist li.todo::before  { content: "○"; color: var(--amber); }
+    ul.checklist li.idea::before  { content: "?"; color: var(--muted); }
+    ul.checklist li.no::before    { content: "✕"; color: var(--red); }
+    ul.checklist li strong { color: var(--text); font-weight: 500; }
+    ul.checklist li code {
+      background: var(--bg-panel);
+      padding: 0.1rem 0.4rem;
+      border-radius: 2px;
+      font-size: 0.85em;
+      color: var(--green);
+    }
+
+    /* ---------- feature block ---------- */
+    .feature-block {
+      border-left: 2px solid var(--green);
+      padding: 0.5rem 0 0.5rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .feature-block.next  { border-color: var(--amber); }
+    .feature-block.later { border-color: var(--muted); }
+    .feature-block h4 {
+      font-family: var(--mono);
+      color: var(--text);
+      font-weight: 500;
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.4rem;
+    }
+    .feature-block.next h4  { color: var(--amber); }
+    .feature-block.later h4 { color: var(--text-dim); }
+    .feature-block p {
+      color: var(--text-dim);
+      font-size: 0.92rem;
+      line-height: 1.55;
+      max-width: 70ch;
+    }
+
+    /* ---------- patterns grid (v0.3) ---------- */
+    .pat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+    .pat-grid .pat {
+      background: var(--bg-panel);
+      border: 1px solid var(--rule);
+      padding: 0.8rem 1rem;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--text);
+      border-radius: 2px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .pat-grid .pat .tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .pat-grid .pat.community .tag { color: var(--green); }
+
+    /* ---------- note / callout ---------- */
+    .note {
+      background: var(--bg-elevated);
+      border: 1px solid var(--rule);
+      border-left: 3px solid var(--green);
+      padding: 1.2rem 1.5rem;
+      border-radius: 2px;
+      margin-top: 1.5rem;
+      font-size: 0.92rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+    .note strong { color: var(--text); font-weight: 500; }
+    .note code {
+      background: var(--bg-panel);
+      padding: 0.1rem 0.4rem;
+      border-radius: 2px;
+      font-size: 0.88em;
+      color: var(--green);
+    }
+
+    /* ---------- pricing tier row ---------- */
+    .tier-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .tier-row .tier {
+      border: 1px solid var(--rule);
+      padding: 1.5rem;
+      border-radius: 4px;
+      background: var(--bg-panel);
+    }
+    .tier-row .tier.featured { border-color: var(--green); }
+    .tier-row .tier .name {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 0.5rem;
+    }
+    .tier-row .tier .price {
+      font-family: var(--mono);
+      font-size: 1.2rem;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+    .tier-row .tier ul {
+      list-style: none;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+    .tier-row .tier ul li::before {
+      content: "› ";
+      color: var(--green);
+    }
+
+    /* ---------- footer ---------- */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 2.5rem 1.5rem 2rem;
+      background: var(--bg);
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+    footer .row {
+      margin-bottom: 0.65rem;
+      line-height: 1.8;
+    }
+    footer a {
+      color: var(--text-dim);
+      border-bottom: none;
+      transition: color 0.15s ease;
+    }
+    footer a:hover { color: var(--green); }
+    footer .sep { margin: 0 0.65em; color: var(--rule); }
+    footer .copy {
+      margin-top: 0.85rem;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+    }
+    footer .copy .bolt { color: var(--green); margin: 0 0.4em; }
+    footer .social {
+      margin-top: 1.25rem;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      font-size: 1.15rem;
+    }
+    footer .social a {
+      opacity: 0.6;
+      transition: opacity 0.15s ease, color 0.15s ease;
+      text-decoration: none;
+      border-bottom: none;
+    }
+    footer .social a:hover { opacity: 1; color: var(--green); }
+
+    /* ---------- mobile nav ---------- */
+    .nav-toggle {
+      display: none;
+      background: transparent;
+      border: 1px solid var(--rule);
+      color: var(--green);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.55rem 0.85rem;
+      cursor: pointer;
+      align-items: center;
+      gap: 0.6rem;
+      line-height: 1;
+    }
+    .nav-toggle:hover { border-color: var(--green); }
+    .nav-toggle .bars {
+      display: inline-block;
+      width: 16px; height: 2px;
+      background: var(--green);
+      position: relative;
+    }
+    .nav-toggle .bars::before,
+    .nav-toggle .bars::after {
+      content: ""; position: absolute; left: 0;
+      width: 16px; height: 2px; background: var(--green);
+      transition: transform 0.2s ease, top 0.2s ease;
+    }
+    .nav-toggle .bars::before { top: -5px; }
+    .nav-toggle .bars::after  { top: 5px; }
+    .nav-toggle[aria-expanded="true"] .bars { background: transparent; }
+    .nav-toggle[aria-expanded="true"] .bars::before { top: 0; transform: rotate(45deg); }
+    .nav-toggle[aria-expanded="true"] .bars::after  { top: 0; transform: rotate(-45deg); }
+
+    @media (max-width: 720px) {
+      .topbar { padding: 1rem 1.25rem; }
+      .topbar .status { display: none; }
+      .nav-toggle { display: inline-flex; }
+      .topbar nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 1.25rem;
+        background: var(--bg);
+        border: 1px solid var(--rule);
+        border-top: none;
+        flex-direction: column;
+        gap: 0;
+        min-width: 220px;
+        z-index: 50;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+      }
+      .topbar nav.open { display: flex; }
+      .topbar nav a {
+        padding: 0.95rem 1.25rem;
+        color: var(--text);
+        border-bottom: 1px solid var(--rule);
+        font-size: 0.78rem;
+      }
+      .topbar nav a:last-child { border-bottom: none; }
+      .topbar nav a:hover { background: var(--green-soft); color: var(--green); }
+      .hero { padding: 4rem 1.5rem 2rem; }
+      .strip { padding: 4rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">PAT <span>/</span> SCANNER</div>
+    <nav id="site-nav">
+      <a href="../#how">How it works</a>
+      <a href="../#patterns">Patterns</a>
+      <a href="../#configure">Configure</a>
+      <a href="../#compare">Compare</a>
+      <a href="./" class="active">Roadmap</a>
+      <a href="https://github.com/JordanNewell/pat-scanner">GitHub</a>
+    </nav>
+    <div class="status">v0.1.1 LIVE</div>
+    <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="site-nav">
+      <span class="bars" aria-hidden="true"></span>
+      <span>Menu</span>
+    </button>
+  </header>
+
+  <main class="hero">
+    <div class="eyebrow">open-source <span class="accent">chat-time</span> secret scanner &nbsp;·&nbsp; status board</div>
+
+    <h1>
+      roadmap
+      <span class="sub">What shipped. What's next. What's not.</span>
+    </h1>
+
+    <p class="tagline">
+      Honest status board. The <strong>OSS plugin stays MIT forever</strong> —
+      the hosted team layer is an additive surface for fleets, not a paywall
+      on the local hook. Dates are <strong>targets, not promises</strong> —
+      this is a side project for one maintainer.
+    </p>
+
+    <div class="cta-row">
+      <a class="btn" href="https://github.com/JordanNewell/pat-scanner/releases">View releases</a>
+      <a class="btn btn--ghost" href="../">← Back to landing</a>
+    </div>
+  </main>
+
+  <!-- ============ NOW — v0.1.x ============ -->
+  <section class="strip" id="now">
+    <div class="section-num">// 01 — now</div>
+    <div class="phase-head">
+      <span class="ver">v0.1.x</span>
+      <span class="state">SHIPPED</span>
+      <span class="when">live · 2026-07-27</span>
+    </div>
+    <h2>What works today.</h2>
+    <p class="lede">
+      The local UserPromptSubmit hook is production-shaped. Install via
+      <code>/plugin install pat-scanner</code>, restart Claude Code, you're
+      covered for 13 PAT classes on every prompt.
+    </p>
+
+    <ul class="checklist">
+      <li><strong>13 PAT classes</strong> &mdash; Figma, Anthropic, OpenAI (legacy + project), GitHub (classic + fine-grained), Slack, Stripe, PyPI, Z.ai, JWT (generic), Natural.com, AWS</li>
+      <li><strong>UserPromptSubmit hook</strong> &mdash; fires on every prompt before it reaches the model</li>
+      <li><strong>Block via exit 2</strong> &mdash; Claude Code aborts the prompt, stderr explains the match</li>
+      <li><strong>Bash + jq, zero deps</strong> &mdash; no Node, no Python, no npm install</li>
+      <li><strong>Custom patterns</strong> via <code>~/.config/secret-patterns.local</code> &mdash; survives plugin updates</li>
+      <li><strong>Bypass keyword</strong> <code>BYPASS_SECRET_SCAN</code> &mdash; for scanner debugging only</li>
+      <li><strong>Audit log</strong> at <code>~/.pat-scanner/audit.log</code> &mdash; timestamp, name, session UUID, no token</li>
+      <li><strong>Fail-open</strong> on missing/unreadable patterns file &mdash; never blocks all of Claude Code</li>
+      <li><strong>POSIX ERE</strong> &mdash; <code>grep -E</code> compatible, no PCRE dependency</li>
+      <li><strong>Linux GNU grep</strong> target &mdash; macOS/BSD untested but expected to work</li>
+      <li><strong>18/18 tests passing</strong> &mdash; <code>bash tests/test-scan-secrets.sh</code></li>
+      <li><strong>MIT license</strong> &mdash; commercial use OK, no contingent license</li>
+      <li><strong>Plugin marketplace install</strong> &mdash; <code>/plugin marketplace add JordanNewell/pat-scanner</code></li>
+      <li><strong>Fleet-deployable</strong> &mdash; documented pattern for multi-host rollout via Ansible</li>
+    </ul>
+
+    <div class="note">
+      <strong>Latest patch:</strong> v0.1.1 (2026-07-27) — marked scanner + test scripts executable (mode 100755) so Linux <code>/plugin install</code> stops failing with <code>Permission denied</code>. See the <a href="https://github.com/JordanNewell/pat-scanner/releases">releases page</a> for the full history.
+    </div>
+  </section>
+
+  <!-- ============ NEXT — v0.2 Team tier ============ -->
+  <section class="strip" id="v02">
+    <div class="section-num">// 02 — next</div>
+    <div class="phase-head">
+      <span class="ver">v0.2</span>
+      <span class="state next">IN BUILD</span>
+      <span class="when">target Q3 2026 · separate product</span>
+    </div>
+    <h2>Hosted team tier.</h2>
+    <p class="lede">
+      The local hook solves the single-developer case. v0.2 adds an optional
+      hosted layer for teams running Claude Code across multiple hosts and
+      agents — centralized audit rollup, alerting, and org-wide pattern
+      distribution without per-host config edits.
+    </p>
+
+    <div class="feature-block next">
+      <h4>CENTRALIZED AUDIT DASHBOARD</h4>
+      <p>Every block from every host ships to a single pane. Filter by agent, by pattern, by time window. Exports as JSONL (raw events) or CSV (flattened for auditors). Retention tunable per workspace.</p>
+    </div>
+    <div class="feature-block next">
+      <h4>SLACK + TEAMS ALERT ON BLOCK</h4>
+      <p>Real-time notification to a security channel when any agent blocks a prompt. Includes pattern name, host, session link — never includes the token. Optional digest mode for high-volume fleets.</p>
+    </div>
+    <div class="feature-block next">
+      <h4>ORG-WIDE PATTERN DISTRIBUTION</h4>
+      <p>Push new patterns from a single source-of-truth to every host. No more <code>scp ~/.config/secret-patterns.local</code> across N machines. Versioned, signed, rollback-able.</p>
+    </div>
+    <div class="feature-block next">
+      <h4>SOC2-READY EXPORT</h4>
+      <p>One-click evidence export covering a chosen date range: every block, every bypass, every patterns-file change. Schema documented, stable across releases.</p>
+    </div>
+    <div class="feature-block next">
+      <h4>SSO + SCIM</h4>
+      <p>Google Workspace, Microsoft Entra, Okta. Provision/deprovision seats via SCIM. No shared API keys for auth.</p>
+    </div>
+
+    <div class="tier-row">
+      <div class="tier featured">
+        <div class="name">OSS PLUGIN</div>
+        <div class="price">Free · MIT</div>
+        <ul>
+          <li>All v0.1.x features</li>
+          <li>Local audit log</li>
+          <li>Custom patterns via <code>~/.config</code></li>
+          <li>Forever free, forever MIT</li>
+        </ul>
+      </div>
+      <div class="tier">
+        <div class="name">TEAM (v0.2)</div>
+        <div class="price">$19 / seat / mo</div>
+        <ul>
+          <li>Centralized dashboard</li>
+          <li>Slack / Teams alerting</li>
+          <li>Org-wide patterns</li>
+          <li>SOC2-ready export</li>
+        </ul>
+      </div>
+      <div class="tier">
+        <div class="name">ENTERPRISE</div>
+        <div class="price">sales-led</div>
+        <ul>
+          <li>SSO + SCIM</li>
+          <li>Self-hosted collector</li>
+          <li>Custom pattern SLAs</li>
+          <li>Air-gapped deployment</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>Pricing is a target, not a commitment.</strong> $19/seat/mo is the working number — may move as the build firms up. OSS plugin features will not be paywalled. If you want early access or want to shape the feature set, <a href="https://github.com/JordanNewell/pat-scanner/discussions">open a discussion</a>.
+    </div>
+  </section>
+
+  <!-- ============ LATER — v0.3 / v0.4 ============ -->
+  <section class="strip" id="later">
+    <div class="section-num">// 03 — later</div>
+    <div class="phase-head">
+      <span class="ver">v0.3</span>
+      <span class="state later">PLANNED</span>
+      <span class="when">target Q4 2026 · OSS plugin</span>
+    </div>
+    <h2>More pattern classes.</h2>
+    <p class="lede">
+      The 13 default classes cover the obvious leak vectors. v0.3 expands the
+      defaults with classes that have been requested or observed in the wild.
+      Community contributions welcome — one-line-per-pattern format makes PRs
+      trivial.
+    </p>
+
+    <div class="pat-grid">
+      <div class="pat">GitLab PAT<span class="tag">v0.3</span></div>
+      <div class="pat">Bitbucket app password<span class="tag">v0.3</span></div>
+      <div class="pat">Linear API key<span class="tag">v0.3</span></div>
+      <div class="pat">Datadog API key<span class="tag">v0.3</span></div>
+      <div class="pat">SendGrid<span class="tag">v0.3</span></div>
+      <div class="pat">Twilio<span class="tag">v0.3</span></div>
+      <div class="pat">Mailgun<span class="tag">v0.3</span></div>
+      <div class="pat">DigitalOcean<span class="tag">v0.3</span></div>
+      <div class="pat">Cloudflare API token<span class="tag">v0.3</span></div>
+      <div class="pat">Heroku<span class="tag">v0.3</span></div>
+      <div class="pat">npm publish (legacy)<span class="tag">v0.3</span></div>
+      <div class="pat community">+ your pattern here<span class="tag">PR</span></div>
+    </div>
+
+    <div class="note">
+      <strong>Contributing a pattern:</strong> append one line to <code>patterns/secret-patterns.local</code>, add a test case in <code>tests/test-scan-secrets.sh</code>, run the tests, open a PR. The <a href="https://github.com/JordanNewell/pat-scanner/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a> has the full workflow including the POSIX ERE gotchas.
+    </div>
+  </section>
+
+  <section class="strip" id="v04">
+    <div class="section-num">// 04 — later</div>
+    <div class="phase-head">
+      <span class="ver">v0.4</span>
+      <span class="state later">PLANNED</span>
+      <span class="when">target Q1 2027 · OSS plugin</span>
+    </div>
+    <h2>Multi-line paste detection.</h2>
+    <p class="lede">
+      The current scanner is line-oriented — one <code>grep -E</code> per
+      line. That catches 95% of real leaks but misses classes that span
+      lines: PEM private key blocks, <code>.env</code> file pastes, YAML
+      config with embedded credentials. v0.4 adds stateful multi-line
+      detection without giving up the bash-only dependency story.
+    </p>
+
+    <div class="feature-block later">
+      <h4>PEM PRIVATE KEY BLOCKS</h4>
+      <p>Detect <code>-----BEGIN ... PRIVATE KEY-----</code> ... <code>-----END</code> as a single leak, even when pasted across many lines. Catches RSA, ECDSA, OpenSSH, PKCS#8.</p>
+    </div>
+    <div class="feature-block later">
+      <h4>.ENV FILE PASTES</h4>
+      <p>Multi-line <code>KEY=value</code> blocks with at least one suspicious key name (e.g. <code>*TOKEN*</code>, <code>*SECRET*</code>, <code>*API_KEY*</code>). Balances false-positive risk vs. catch rate.</p>
+    </div>
+    <div class="feature-block later">
+      <h4>EMBEDDED YAML / JSON</h4>
+      <p>Structural detection of credentials inside pasted config blobs. Likely requires <code>jq</code> for JSON and a small YAML subset parser for YAML — both still bash-friendly.</p>
+    </div>
+
+    <div class="note">
+      <strong>Why this is hard:</strong> bash line-oriented pipelines are easy to reason about. Multi-line state machines in bash are not. v0.4 will likely introduce a small awk stage between <code>grep</code> and the exit decision — keeps the zero-deps promise, but the code shape changes meaningfully.
+    </div>
+  </section>
+
+  <!-- ============ CONSIDERING ============ -->
+  <section class="strip" id="considering">
+    <div class="section-num">// 05 — considering</div>
+    <div class="phase-head">
+      <span class="ver">ideas</span>
+      <span class="state idea">UNCOMMITTED</span>
+      <span class="when">no target · may not ship</span>
+    </div>
+    <h2>On the radar, not on the plan.</h2>
+    <p class="lede">
+      Things that have come up in conversations or in the maintainer's own
+      fleet usage. None of these are committed — they're listed so you can
+      thumbs-up or push back before any code gets written.
+    </p>
+
+    <ul class="checklist">
+      <li class="idea"><strong>PreToolUse hook companion</strong> &mdash; scan tool inputs (Write/Edit/Bash) not just prompts. Catches the case where an agent tries to write a secret to disk.</li>
+      <li class="idea"><strong>macOS/BSD grep portability testing</strong> &mdash; Linux GNU grep is the only tested target today. BSD grep has subtle ERE differences.</li>
+      <li class="idea"><strong>Windows native PowerShell port</strong> &mdash; currently Git Bash only. Native PS port would remove the WSL/Git Bash dependency for Windows users.</li>
+      <li class="idea"><strong>Plugin marketplace for community patterns</strong> &mdash; separate from core, so unusual org-specific patterns don't bloat defaults.</li>
+      <li class="idea"><strong>Statusline integration</strong> &mdash; surface "blocked N times this session" in the CC statusline for at-a-glance awareness.</li>
+      <li class="idea"><strong>Canary-token logging mode</strong> &mdash; instead of blocking, log only and let the canary approach surface later leaks. Companion to <a href="https://github.com/JordanNewell/sensitive-canary">sensitive-canary</a>.</li>
+      <li class="idea"><strong>Claude Agent SDK support</strong> &mdash; currently Claude Code only. Agent SDK uses different hook surface; would need a separate integration.</li>
+    </ul>
+
+    <div class="note">
+      Have an opinion? <a href="https://github.com/JordanNewell/pat-scanner/discussions">Open a discussion</a> with the idea name in the title. Strong thumbs-up signals move items from this list into a version target.
+    </div>
+  </section>
+
+  <!-- ============ NOT DOING ============ -->
+  <section class="strip" id="not-doing">
+    <div class="section-num">// 06 — out of scope</div>
+    <div class="phase-head">
+      <span class="ver">not doing</span>
+      <span class="state no">SCOPE GUARD</span>
+      <span class="when">set expectations</span>
+    </div>
+    <h2>Explicitly not on the roadmap.</h2>
+    <p class="lede">
+      Scope creep kills OSS tools. These are common asks that have been
+      considered and deliberately left out — either because they belong to a
+      different layer of the stack or because they'd compromise the
+      zero-deps / local-only promise.
+    </p>
+
+    <ul class="checklist">
+      <li class="no"><strong>Paywalling the OSS plugin.</strong> The local hook stays MIT forever. v0.2 Team tier is additive, not a feature gate on existing features.</li>
+      <li class="no"><strong>Scanning model responses.</strong> PAT Scanner is prompt-side (UserPromptSubmit). Response-side rewriting is <a href="https://github.com/JordanNewell/sensitive-canary">sensitive-canary's</a> slot — different mechanism, complementary coverage.</li>
+      <li class="no"><strong>Auto-rotating leaked credentials.</strong> Vendor-specific, requires creds we don't want to hold. Use your provider's existing rotation API.</li>
+      <li class="no"><strong>Replacing gitleaks / trufflehog.</strong> Those are git-time scanners with deep history support. PAT Scanner is chat-time only. Use both — defense in depth works.</li>
+      <li class="no"><strong>Network calls from the hook.</strong> The hook runs in your Claude Code session. It will never phone home, even for telemetry. Team tier will be opt-in collector only.</li>
+      <li class="no"><strong>GUI / desktop app.</strong> The hook is a bash script. Configuration is a flat file. This is the entire point.</li>
+    </ul>
+  </section>
+
+  <!-- ============ CHANGELOG ============ -->
+  <section class="strip" id="changelog">
+    <div class="section-num">// 07 — history</div>
+    <h2>Releases so far.</h2>
+    <p class="lede">
+      Two patches shipped same day (2026-07-27). Full release notes on
+      GitHub; short version below.
+    </p>
+
+    <div class="feature-block">
+      <h4>v0.1.1 — 2026-07-27</h4>
+      <p>Marked <code>scan-secrets.sh</code> and <code>test-scan-secrets.sh</code> executable (mode 100755) in git. Fixes Linux <code>/plugin install</code> failing with <code>Permission denied: exit 126</code>. No functional change to the scanner itself.</p>
+    </div>
+    <div class="feature-block">
+      <h4>v0.1.0 — 2026-07-27</h4>
+      <p>Initial public release. 13 PAT classes, UserPromptSubmit hook, bash + jq, MIT. 18/18 tests passing. Plugin marketplace install flow live.</p>
+    </div>
+
+    <p style="margin-top: 1.5rem;">
+      <a class="btn btn--ghost" href="https://github.com/JordanNewell/pat-scanner/releases">All releases on GitHub →</a>
+    </p>
+  </section>
+
+  <footer>
+    <p class="row">
+      <a href="../">landing</a>
+      <span class="sep">·</span>
+      <a href="https://github.com/JordanNewell/pat-scanner">github</a>
+      <span class="sep">·</span>
+      <a href="https://github.com/JordanNewell/pat-scanner#install">install</a>
+      <span class="sep">·</span>
+      <a href="https://github.com/JordanNewell/pat-scanner#readme">readme</a>
+      <span class="sep">·</span>
+      <a href="https://github.com/JordanNewell/pat-scanner/releases">releases</a>
+      <span class="sep">·</span>
+      <a href="https://github.com/JordanNewell/pat-scanner/discussions">discussions</a>
+    </p>
+    <p class="row">
+      <a href="https://github.com/JordanNewell/pat-scanner/blob/master/LICENSE">MIT</a>
+      <span class="sep">·</span>
+      <span>v0.1.1</span>
+      <span class="sep">·</span>
+      <span>bash + jq</span>
+      <span class="sep">·</span>
+      <span>claude code · UserPromptSubmit</span>
+      <span class="sep">·</span>
+      <span>13 PAT classes</span>
+    </p>
+    <p class="copy">© 2026 Jordan Newell <span class="bolt">⚡</span> PAT Scanner is a trademark of Jordan Newell <span class="bolt">⚡</span> Defense in depth — use with git-time scanners</p>
+    <div class="social">
+      <a href="https://github.com/JordanNewell" aria-label="GitHub" title="GitHub">🐙</a>
+      <a href="https://github.com/sponsors/JordanNewell" aria-label="Sponsor" title="Sponsor on GitHub">🤍</a>
+      <a href="https://buymeacoffee.com/jordannewell" aria-label="Buy me a coffee" title="Buy me a coffee">☕</a>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile nav toggle.
+    (function() {
+      var toggle = document.querySelector('.nav-toggle');
+      var nav = document.querySelector('.topbar nav');
+      if (!toggle || !nav) return;
+      function setOpen(open) {
+        nav.classList.toggle('open', open);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      }
+      toggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        setOpen(!nav.classList.contains('open'));
+      });
+      nav.addEventListener('click', function(e) {
+        if (e.target.tagName === 'A') setOpen(false);
+      });
+      document.addEventListener('click', function(e) {
+        if (!toggle.contains(e.target) && !nav.contains(e.target)) setOpen(false);
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') setOpen(false);
+      });
+    })();
+  </script>
+
+</body>
+</html>
