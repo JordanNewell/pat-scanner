@@ -2,7 +2,7 @@
   "name": "pat-scanner",
   "displayName": "PAT Scanner",
   "description": "Block credential leaks at chat-time. UserPromptSubmit hook that catches 13 PAT classes (Figma, Anthropic, OpenAI, GitHub, Slack, Stripe, PyPI, Z.ai, JWT, Natural, AWS) before they enter the transcript. Bypass via BYPASS_SECRET_SCAN keyword.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "Jordan Newell",
     "url": "https://jordannewell.com"
