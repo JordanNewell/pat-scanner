@@ -1,0 +1,16 @@
+{
+  "description": "UserPromptSubmit hook — scans prompt text for credential patterns before they enter the transcript",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scan-secrets.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
