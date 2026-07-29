@@ -18,16 +18,11 @@
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="512x512" href="https://jordannewell.github.io/newell-typeface/assets/favicon-512.png">
   <link rel="apple-touch-icon" href="https://jordannewell.github.io/newell-typeface/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <meta name="theme-color" content="#0A0A0A">
   <style>
-    @font-face {
-      font-family: "Newell";
-      src: url("https://jordannewell.github.io/newell-typeface/releases/Newell-Regular.woff2") format("woff2");
-      font-weight: 400;
-      font-style: normal;
-      font-display: swap;
-    }
-
     :root {
       --bg:           #0A0A0A;
       --bg-elevated:  #0F0F0F;
@@ -44,7 +39,7 @@
       --amber:        #ffb86c;
       --sans:         system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
       --mono:         "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, "Courier New", monospace;
-      --display:      "Newell", "JetBrains Mono", ui-monospace, monospace;
+      --display-hero: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -144,8 +139,8 @@
     .hero .eyebrow .accent { color: var(--green); }
 
     .hero h1 {
-      font-family: var(--display);
-      font-weight: 400;
+      font-family: var(--display-hero);
+      font-weight: 600;
       color: var(--green);
       font-size: clamp(2.5rem, 9vw, 7rem);
       line-height: 0.95;
@@ -570,7 +565,9 @@
       display: flex;
       justify-content: center;
       gap: 1.5rem;
-      font-size: 1.15rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
     }
     footer .social a {
       opacity: 0.6;
@@ -748,8 +745,8 @@
       </div>
       <div class="body"><span class="dim">&gt;</span> help me debug this Figma plugin, my token is figd_REAL_TOKEN_WILL_NOT_RENDER_HERE
 
-<span class="err">❌ PROMPT BLOCKED — pat scanner</span>
-   <span class="err">🔴 Figma PAT</span>
+<span class="err">PROMPT BLOCKED — pat scanner</span>
+   <span class="err">Figma PAT</span>
       Pattern matched: <span class="cite">figd_[A-Za-z0-9]{40,}</span>
       The token was not sent to the model and was not written to disk.
 
@@ -964,11 +961,11 @@
       <span class="sep">·</span>
       <span>13 PAT classes</span>
     </p>
-    <p class="copy">© 2026 Jordan Newell <span class="bolt">⚡</span> PAT Scanner is a trademark of Jordan Newell <span class="bolt">⚡</span> Defense in depth — use with git-time scanners</p>
+    <p class="copy">© 2026 Jordan Newell <span class="sep">·</span> PAT Scanner is a trademark of Jordan Newell <span class="sep">·</span> Defense in depth — use with git-time scanners</p>
     <div class="social">
-      <a href="https://github.com/JordanNewell" aria-label="GitHub" title="GitHub">🐙</a>
-      <a href="https://github.com/sponsors/JordanNewell" aria-label="Sponsor" title="Sponsor on GitHub">🤍</a>
-      <a href="https://buymeacoffee.com/jordannewell" aria-label="Buy me a coffee" title="Buy me a coffee">☕</a>
+      <a href="https://github.com/JordanNewell" aria-label="GitHub" title="GitHub">GitHub</a>
+      <a href="https://github.com/sponsors/JordanNewell" aria-label="Sponsor" title="Sponsor on GitHub">Sponsor</a>
+      <a href="https://buymeacoffee.com/jordannewell" aria-label="Buy me a coffee" title="Buy me a coffee">Coffee</a>
     </div>
   </footer>
 

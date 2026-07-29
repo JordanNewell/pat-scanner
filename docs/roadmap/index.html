@@ -15,16 +15,11 @@
   <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="512x512" href="https://jordannewell.github.io/newell-typeface/assets/favicon-512.png">
   <link rel="apple-touch-icon" href="https://jordannewell.github.io/newell-typeface/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <meta name="theme-color" content="#0A0A0A">
   <style>
-    @font-face {
-      font-family: "Newell";
-      src: url("https://jordannewell.github.io/newell-typeface/releases/Newell-Regular.woff2") format("woff2");
-      font-weight: 400;
-      font-style: normal;
-      font-display: swap;
-    }
-
     :root {
       --bg:           #0A0A0A;
       --bg-elevated:  #0F0F0F;
@@ -41,7 +36,7 @@
       --amber:        #ffb86c;
       --sans:         system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
       --mono:         "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, "Courier New", monospace;
-      --display:      "Newell", "JetBrains Mono", ui-monospace, monospace;
+      --display-hero: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -142,8 +137,8 @@
     .hero .eyebrow .accent { color: var(--green); }
 
     .hero h1 {
-      font-family: var(--display);
-      font-weight: 400;
+      font-family: var(--display-hero);
+      font-weight: 600;
       color: var(--green);
       font-size: clamp(2.5rem, 9vw, 7rem);
       line-height: 0.95;
@@ -454,7 +449,9 @@
       display: flex;
       justify-content: center;
       gap: 1.5rem;
-      font-size: 1.15rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
     }
     footer .social a {
       opacity: 0.6;
@@ -604,7 +601,7 @@
     </ul>
 
     <div class="note">
-      <strong>Latest patch:</strong> v0.1.2 (2026-07-29) — docs/brand release. Brought the docs site into NEWELL brand compliance (canonical color tokens, Newell display face, glassmorphism/gradients/glows stripped), shipped a dedicated <code>/roadmap</code> page with pricing vetted against GitGuardian/Snyk/Doppler/GitHub, and stood up GitHub Pages. No scanner changes &mdash; 13 patterns, 18/18 tests, same as v0.1.1. See the <a href="https://github.com/JordanNewell/pat-scanner/releases">releases page</a> for the full history.
+      <strong>Latest patch:</strong> v0.1.2 (2026-07-29) — docs/brand release. Brought the docs site into NEWELL brand compliance (canonical color tokens, Space Grotesk display face on hero, glassmorphism/gradients/glows stripped, decorative emoji removed), shipped a dedicated <code>/roadmap</code> page with pricing vetted against GitGuardian/Snyk/Doppler/GitHub, and stood up GitHub Pages. No scanner changes &mdash; 13 patterns, 18/18 tests, same as v0.1.1. See the <a href="https://github.com/JordanNewell/pat-scanner/releases">releases page</a> for the full history.
     </div>
   </section>
 
@@ -890,7 +887,7 @@
 
     <div class="feature-block">
       <h4>v0.1.2 — 2026-07-29</h4>
-      <p>Docs/brand release. Docs site brought into NEWELL brand compliance (canonical <code>#0A0A0A</code> / <code>#00FF41</code> / <code>#1AFF72</code> palette, Newell display face on hero, glassmorphism/gradients/glows stripped per anti-pattern list). Dedicated <code>/roadmap</code> page live with pricing vetted against live vendor rates. GitHub Pages stood up with auto-enablement in CI. <code>SECURITY.md</code> Americanized + 48h&rarr;72h ack SLA. <code>FUNDING.yml</code> dead URL dropped. Scanner unchanged: 13 patterns, 18/18 tests passing.</p>
+      <p>Docs/brand release. Docs site brought into NEWELL brand compliance (canonical <code>#0A0A0A</code> / <code>#00FF41</code> / <code>#1AFF72</code> palette, Space Grotesk display face on hero &mdash; Newell v0.1 restricted to the literal NEWELL wordmark per the brand spec, decorative emoji and separator glyphs removed). Dedicated <code>/roadmap</code> page live with pricing vetted against live vendor rates. GitHub Pages stood up with auto-enablement in CI. <code>SECURITY.md</code> Americanized + 48h&rarr;72h ack SLA. <code>FUNDING.yml</code> dead URL dropped. Scanner unchanged: 13 patterns, 18/18 tests passing.</p>
     </div>
     <div class="feature-block">
       <h4>v0.1.1 — 2026-07-27</h4>
@@ -931,11 +928,11 @@
       <span class="sep">·</span>
       <span>13 PAT classes</span>
     </p>
-    <p class="copy">© 2026 Jordan Newell <span class="bolt">⚡</span> PAT Scanner is a trademark of Jordan Newell <span class="bolt">⚡</span> Defense in depth — use with git-time scanners</p>
+    <p class="copy">© 2026 Jordan Newell <span class="sep">·</span> PAT Scanner is a trademark of Jordan Newell <span class="sep">·</span> Defense in depth — use with git-time scanners</p>
     <div class="social">
-      <a href="https://github.com/JordanNewell" aria-label="GitHub" title="GitHub">🐙</a>
-      <a href="https://github.com/sponsors/JordanNewell" aria-label="Sponsor" title="Sponsor on GitHub">🤍</a>
-      <a href="https://buymeacoffee.com/jordannewell" aria-label="Buy me a coffee" title="Buy me a coffee">☕</a>
+      <a href="https://github.com/JordanNewell" aria-label="GitHub" title="GitHub">GitHub</a>
+      <a href="https://github.com/sponsors/JordanNewell" aria-label="Sponsor" title="Sponsor on GitHub">Sponsor</a>
+      <a href="https://buymeacoffee.com/jordannewell" aria-label="Buy me a coffee" title="Buy me a coffee">Coffee</a>
     </div>
   </footer>
 
