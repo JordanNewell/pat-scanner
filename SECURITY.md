@@ -18,7 +18,7 @@ Do NOT open a public issue for security-sensitive bugs.
 
 ## Response timeline
 
-- **Acknowledgement:** within 48 hours
+- **Acknowledgment:** within 72 hours
 - **Initial assessment:** within 1 week
 - **Fix or mitigation:** within 30 days (severity-dependent)
 - **Coordinated disclosure:** fix ships first, public disclosure after users have had time to patch
