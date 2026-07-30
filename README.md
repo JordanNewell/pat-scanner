@@ -148,3 +148,10 @@ PRs welcome. Two high-value areas:
 2. **POSIX ERE portability** — test on macOS/BSD grep (Linux GNU grep is current target)
 
 See `SKILL.md` for the full hook architecture and extension guide.
+
+
+<p align="right">
+  <a href="https://jordannewell.com" title="Built by Jordan Newell">
+    <img src="assets/newell-badge.png" alt="Built by Jordan Newell" width="48" height="48">
+  </a>
+</p>
