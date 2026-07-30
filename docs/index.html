@@ -16,8 +16,9 @@
   <meta name="twitter:description" content="Claude Code UserPromptSubmit hook. 13 PAT classes. Bash + jq, zero deps, MIT.">
   <title>PAT Scanner — Block credential leaks at chat-time</title>
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="https://jordannewell.github.io/newell-typeface/assets/favicon-512.png">
-  <link rel="apple-touch-icon" href="https://jordannewell.github.io/newell-typeface/assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon-512.png">
+  <link rel="apple-touch-icon" href="assets/favicon-512.png">
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -86,7 +87,19 @@
       border-bottom: 1px solid var(--rule);
       z-index: 100;
     }
-    .topbar .brand { color: var(--text); font-weight: 600; }
+    .topbar .brand {
+      color: var(--text);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .topbar .brand-logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
     .topbar .brand span { color: var(--green); }
     .topbar nav { display: flex; gap: 2rem; }
     .topbar nav a { color: var(--text-dim); border-bottom: none; }
@@ -116,16 +129,48 @@
     /* ---------- hero ---------- */
     .hero {
       flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
       align-items: center;
-      text-align: center;
-      padding: 6rem 2rem 4rem;
-      max-width: 1400px;
+      padding: 5rem 2rem 4rem;
+      max-width: 1280px;
       margin: 0 auto;
       width: 100%;
       position: relative;
+    }
+    .hero-text-col {
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+    }
+    .hero-text-col > * + * { margin-top: 1.25rem; }
+    .hero-text-col h1 { margin-top: 2rem !important; }
+    .hero-text-col .cta-row { margin-top: 2rem !important; }
+    .hero-visual-col {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    @media (max-width: 960px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 3rem 1.5rem 2rem;
+      }
+      .hero-text-col { text-align: center; align-items: center; }
+    }
+
+    .hero .hero-logo {
+      width: 240px;
+      height: auto;
+      flex-shrink: 0;
+      border-radius: 16px;
+    }
+    @media (max-width: 860px) {
+      .hero .hero-logo { width: 180px; }
     }
 
     .hero .eyebrow {
@@ -176,8 +221,11 @@
       display: flex;
       gap: 1rem;
       flex-wrap: wrap;
-      justify-content: center;
+      justify-content: flex-start;
       margin-bottom: 3.5rem;
+    }
+    @media (max-width: 860px) {
+      .hero .cta-row { justify-content: center; }
     }
 
     .btn {
@@ -210,6 +258,118 @@
       color: var(--muted);
       flex-wrap: wrap;
       justify-content: center;
+      margin-bottom: 4rem;
+    }
+
+    .hero .badges {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-bottom: 0;
+    }
+    .hero .badges img {
+      display: inline-block;
+      height: 20px;
+      border-radius: 3px;
+    }
+
+    .hero h1 {
+      font-family: var(--display-hero);
+      font-weight: 600;
+      color: var(--green);
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      margin: 0;
+      text-transform: uppercase;
+    }
+    .hero h1 .sub {
+      display: block;
+      color: var(--text);
+      opacity: 0.5;
+      font-weight: 400;
+      font-size: 0.36em;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-top: 0.6rem;
+    }
+
+    .hero .tagline {
+      font-size: 1rem;
+      color: var(--text-dim);
+      font-weight: 400;
+      max-width: 48ch;
+      line-height: 1.6;
+      margin: 0;
+    }
+    .hero .tagline strong {
+      color: var(--green);
+      font-weight: 500;
+    }
+
+    .hero .cta-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      margin: 0.5rem 0 0 0;
+    }
+    @media (max-width: 960px) {
+      .hero .cta-row { justify-content: center; }
+      .hero .badges { justify-content: center; }
+    }
+
+    /* Hide duplicated elements in reshaped hero */
+    .hero .eyebrow,
+    .hero .meta {
+      display: none;
+    }
+
+    /* hero terminal */
+    .hero-terminal {
+      width: 100%;
+      background: var(--bg-panel);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      line-height: 1.7;
+      color: var(--text);
+      overflow: hidden;
+      text-align: left;
+      box-shadow: 0 1px 0 rgba(255,255,255,0.02);
+    }
+    .hero-terminal .bar {
+      background: var(--bg-elevated);
+      padding: 0.7rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--rule);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .hero-terminal .bar .dots { display: flex; gap: 0.4rem; margin-right: 0.8rem; }
+    .hero-terminal .bar .dots span {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--rule);
+    }
+    .hero-terminal .body {
+      padding: 1.75rem 1.85rem;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+    .hero-terminal .body .prompt { color: var(--green); user-select: none; }
+    .hero-terminal .body .ok     { color: var(--green); }
+    .hero-terminal .body .err    { color: var(--red); }
+    .hero-terminal .body .warn   { color: var(--amber); }
+    .hero-terminal .body .dim    { color: var(--muted); }
+    .hero-terminal .body .cite   { color: var(--text-dim); }
+    @media (max-width: 720px) {
+      .hero-terminal { font-size: 0.78rem; }
+      .hero-terminal .body { padding: 1rem 1.1rem; }
     }
     .hero .meta span strong {
       color: var(--text);
@@ -649,13 +809,17 @@
 <body>
 
   <header class="topbar">
-    <div class="brand">PAT <span>/</span> SCANNER</div>
+    <div class="brand">
+      <img class="brand-logo" src="assets/logo.png" alt="">
+      PAT <span>/</span> SCANNER
+    </div>
     <nav id="site-nav">
       <a href="#how">How it works</a>
       <a href="#patterns">Patterns</a>
       <a href="#configure">Configure</a>
       <a href="#compare">Compare</a>
       <a href="roadmap/">Roadmap</a>
+      <a href="https://jordannewell.github.io/">jordannewell ↗</a>
       <a href="https://github.com/JordanNewell/pat-scanner">GitHub</a>
     </nav>
     <div class="status">v0.1.2 LIVE</div>
@@ -666,30 +830,50 @@
   </header>
 
   <main class="hero">
-    <div class="eyebrow">claude code <span class="accent">userpromptsubmit</span> hook &nbsp;·&nbsp; v0.1.2</div>
+    <div class="hero-text-col">
+      <div class="badges" aria-label="Project badges">
+        <img src="https://img.shields.io/github/v/release/JordanNewell/pat-scanner?label=release&style=flat-square" alt="Latest release">
+        <img src="https://img.shields.io/github/actions/workflow/status/JordanNewell/pat-scanner/pages.yml?label=deploy&style=flat-square" alt="Deploy status">
+        <img src="https://img.shields.io/github/license/JordanNewell/pat-scanner?style=flat-square" alt="License">
+        <img src="https://img.shields.io/badge/patterns-13-blue?style=flat-square" alt="13 patterns">
+      </div>
 
-    <h1>
-      PAT SCANNER
-      <span class="sub">Catch leaks at the actual point of leak.</span>
-    </h1>
+      <h1>
+        PAT SCANNER
+        <span class="sub">Catch leaks at the actual point of leak.</span>
+      </h1>
 
-    <p class="tagline">
-      A <strong>UserPromptSubmit hook</strong> for Claude Code. Catches
-      <strong>13 personal access token classes</strong> — Figma, Anthropic,
-      OpenAI, GitHub, Slack, Stripe, PyPI, Z.ai, JWT, Natural, AWS — before
-      they enter the transcript. Bash + jq, zero deps, MIT.
-    </p>
+      <p class="tagline">
+        A <strong>UserPromptSubmit hook</strong> for Claude Code. Catches
+        <strong>13 personal access token classes</strong> — Figma, Anthropic,
+        OpenAI, GitHub, Slack, Stripe, PyPI, Z.ai, JWT, Natural, AWS — before
+        they enter the transcript. Bash + jq, zero deps, MIT.
+      </p>
 
-    <div class="cta-row">
-      <a class="btn" href="https://github.com/JordanNewell/pat-scanner#install">/plugin install pat-scanner</a>
-      <a class="btn btn--ghost" href="https://github.com/JordanNewell/pat-scanner#readme">Read the README →</a>
+      <div class="cta-row">
+        <a class="btn" href="https://github.com/JordanNewell/pat-scanner#install">/plugin install pat-scanner</a>
+        <a class="btn btn--ghost" href="https://github.com/JordanNewell/pat-scanner#readme">Read the README →</a>
+      </div>
     </div>
 
-    <div class="meta">
-      <span>Hook<strong>UserPromptSubmit</strong></span>
-      <span>Patterns<strong>13 PAT classes</strong></span>
-      <span>Deps<strong>bash + jq</strong></span>
-      <span>License<strong>MIT</strong></span>
+    <div class="hero-visual-col">
+      <div class="hero-terminal" aria-label="Demo: blocking a Figma PAT paste">
+        <div class="bar">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <span>claude code — prompt</span>
+        </div>
+        <div class="body"><span class="dim">&gt;</span> help me debug this Figma plugin, my token is <span class="err">figd_•••••••••••••••••••••••••••••••••••••••</span>
+
+<span class="err">✗ PROMPT BLOCKED — pat scanner</span>
+   <span class="err">Figma PAT</span>
+      Pattern matched: <span class="cite">figd_[A-Za-z0-9]{40,}</span>
+      Token not sent to model. Not written to disk.
+
+   <span class="dim">Bypass with BYPASS_SECRET_SCAN · Real creds go in .env via shell, never chat.</span>
+
+<span class="prompt">$</span> <span class="cite">tail -1 ~/.pat-scanner/audit.log</span>
+<span class="ok">2026-07-30 14:21:33</span> <span class="err">BLOCKED</span> name=<span class="cite">Figma PAT</span> session=<span class="cite">96d067dd-0674-4121-8119-497f7700e4cd</span></div>
+      </div>
     </div>
   </main>
 
