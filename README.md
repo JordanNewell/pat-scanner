@@ -134,6 +134,12 @@ OpenClaw agents (and other non-CC automation) don't fire `UserPromptSubmit` — 
 
 MIT © Jordan Newell
 
+## pat-scanner vs token-hunt
+
+pat-scanner is the one-command guard: one hook, 13 credential classes, regex matching.
+
+[token-hunt](https://github.com/JordanNewell/token-hunt) is the engine underneath — the Python package, the `scan / list / close / watch` CLI, six hooks with block-and-rotate behavior, the allowlist, and the bash escape-hatch runtime detector for the `${VAR:+SET}${VAR:-UNSET}` class regex can't see. Install pat-scanner for the guard; run token-hunt when you want the full scanner and rotation workflow.
+
 ## Roadmap
 
 - **v0.2** — Hosted team tier (centralized audit dashboard, Slack/Teams alerting on block, SOC2 export). Separate product, OSS plugin stays free.
