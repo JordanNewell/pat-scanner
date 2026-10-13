@@ -132,7 +132,7 @@ OpenClaw agents (and other non-CC automation) don't fire `UserPromptSubmit` — 
 
 ## License
 
-MIT © Jordan Newell
+BUSL-1.1 © Jordan Newell — source-available; converts to MIT on 2030-10-12. See [LICENSE](LICENSE).
 
 ## pat-scanner vs token-hunt
 
