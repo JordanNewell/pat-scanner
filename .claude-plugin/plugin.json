@@ -9,7 +9,7 @@
   },
   "homepage": "https://github.com/JordanNewell/pat-scanner",
   "repository": "https://github.com/JordanNewell/pat-scanner",
-  "license": "MIT",
+  "license": "BUSL-1.1",
   "keywords": [
     "security",
     "secrets",
