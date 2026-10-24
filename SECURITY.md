@@ -16,6 +16,13 @@ Or email: security@jordannewell.com (PGP key at https://jordannewell.com/pgp.asc
 
 Do NOT open a public issue for security-sensitive bugs.
 
+If you have a PGP key, encrypt your report. GPG fingerprint of the project's
+reporting key:
+
+```
+67567DC5E7C5353F85F2AF0DAC05D3F3E0EFA32A
+```
+
 ## Response timeline
 
 - **Acknowledgment:** within 72 hours
